@@ -1,4 +1,7 @@
 ```
-npx expo prebuild
-npx expo run:android
+npm run prebuild
+
+npm run android
+// or
+npm run iod
 ```
