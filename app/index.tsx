@@ -1,7 +1,7 @@
 import {
   EXPOFP_VIEW_ID,
   ExpoFpSdk,
-  ExpoFpViewParams,
+  type ExpoFpViewParams,
 } from "@expofp/expofp-sdk-rn";
 import {
   Button,
@@ -16,8 +16,8 @@ const ExpoFpView = requireNativeComponent<ExpoFpViewParams>(EXPOFP_VIEW_ID);
 
 export default function Index() {
   const buttons = [
-    { title: "Zoom In", onPress: ExpoFpSdk.zoomIn },
-    { title: "Zoom Out", onPress: ExpoFpSdk.zoomOut },
+    { title: "Zoom In", onPress: ExpoFpSdk?.zoomIn },
+    { title: "Zoom Out", onPress: ExpoFpSdk?.zoomOut },
   ].map((item, i) => (
     <Button key={i} title={item.title} onPress={item.onPress} />
   ));
@@ -38,6 +38,7 @@ export default function Index() {
 const styles = StyleSheet.create({
   view: {
     flex: 1,
+    backgroundColor: "#ebebeb",
   },
   overlay: {
     position: "absolute",
@@ -49,7 +50,6 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
     height: "30%",
-    boxShadow: "0px 6px 16px -2px rgba(16, 24, 40, 0.3)",
   },
   content: {
     padding: 30,
