@@ -2,7 +2,7 @@ import { ExpofpView, type ExpofpViewMethods } from "@expofp/expofp-sdk-rn";
 import { useCallback, useRef, useState } from "react";
 import { Button, StyleSheet, View } from "react-native";
 
-const FP = ["vlg-routes-01", "demo"];
+const FP = ["cloudnext25", "demo"];
 
 export default function App() {
   const apiRef = useRef<ExpofpViewMethods>(null);
