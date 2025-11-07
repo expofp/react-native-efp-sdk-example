@@ -44,3 +44,4 @@ yarn.lock
 /android
 
 .tmp
+.claude/settings.local.json

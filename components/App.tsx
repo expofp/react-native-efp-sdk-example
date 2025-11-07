@@ -185,179 +185,196 @@ export default function App() {
 
 
   return (
-    <View style={styles.view}>
-      <View style={{ marginTop: 50 }}>
-        <Text style={styles.statusText}>
-          Permissions: {permissionsGranted ? "✅ Granted" : "❌ Not granted"}
-        </Text>
-        <Text style={styles.statusText}>
-          SDK: {isInitialized ? "✅ Initialized" : "❌ Not initialized"}
-        </Text>
-        <Text style={styles.statusText}>
-          Tracking: {isTracking ? "🟢 Active" : "⚪ Inactive"}
-        </Text>
-        <View style={styles.settingRow}>
-          <Text style={styles.settingLabel}>
-            Background Updates: {backgroundModeEnabled ? "ON" : "OFF"}
-          </Text>
-          <Switch
-            value={backgroundModeEnabled}
-            onValueChange={setBackgroundModeEnabled}
-            disabled={isInitialized}
-          />
+    <View style={styles.container}>
+      {/* Maps Section - 80% of screen */}
+      <View style={styles.mapsContainer}>
+        <ExpofpView
+          ref={apiRef}
+          style={styles.map}
+          locationProvider={CrowdConnectedLocationProvider}
+          expoKey={expoKey}
+          onBoothClick={(e: any) => {
+            console.log("MAP 1: Booth clicked:", e);
+          }}
+        />
+
+        <ExpofpView
+          style={styles.map}
+          expoKey="demo"
+          onBoothClick={(e: any) => {
+            console.log("MAP 2: Booth clicked:", e);
+          }}
+        />
+
+        {/* Map Controls Overlay */}
+        <View style={styles.mapControlsOverlay}>
+          <View style={styles.compactButtonRow}>
+            <Button title="+" onPress={() => apiRef.current?.zoomIn()} />
+            <Button title="-" onPress={() => apiRef.current?.zoomOut()} />
+            <Button title="⤢" onPress={() => apiRef.current?.fitBounds()} />
+            <Button title="Next" onPress={switchKey} />
+          </View>
         </View>
-        <View style={{ height: 10 }} />
-        <Button
-          title="1. Request Permissions"
-          onPress={requestPermissions}
-          disabled={permissionsGranted}
-        />
-        <Button
-          title="2. Request Background Permission"
-          onPress={requestBackgroundPermission}
-          disabled={!permissionsGranted}
-        />
-        <View style={{ height: 20 }} />
-        <Button
-          title="3. Init SDK"
-          onPress={doInit}
-          disabled={!permissionsGranted || isInitialized}
-        />
-        <Button
-          title="4. Start Tracking"
-          onPress={doStart}
-          disabled={!isInitialized || isTracking}
-        />
-        <Button title="Stop Tracking" onPress={doStop} disabled={!isTracking} />
-        <View style={{ height: 20 }} />
-        <Button
-          title="🔄 Reset (to test different mode)"
-          onPress={doReset}
-          disabled={isTracking}
-          color="#FF6B6B"
-        />
-      </View>
-      <View style={styles.locationContainer}>
-        <Text style={styles.locationTitle}>Latest location</Text>
-        <Text style={styles.locationValue}>
-          {location ? JSON.stringify(location, null, 2) : "No updates yet"}
-        </Text>
       </View>
 
-      <ExpofpView
-        ref={apiRef}
-        style={styles.view}
-        locationProvider={CrowdConnectedLocationProvider}
-        expoKey={expoKey}
-        onBoothClick={(e: any) => {
-          console.log("MAP 1: Booth clicked:", e);
-        }}
-      />
+      {/* Controls Section - Compact */}
+      <View style={styles.controlsPanel}>
+        {/* Status Bar */}
+        <View style={styles.statusBar}>
+          <Text style={styles.statusSmallText}>
+            {permissionsGranted ? "✅" : "❌"} Perms
+          </Text>
+          <Text style={styles.statusSmallText}>
+            {isInitialized ? "✅" : "❌"} SDK
+          </Text>
+          <Text style={styles.statusSmallText}>
+            {isTracking ? "🟢" : "⚪"} Track
+          </Text>
+          <View style={styles.backgroundToggle}>
+            <Text style={styles.toggleLabel}>BG:</Text>
+            <Switch
+              style={styles.switchSmall}
+              value={backgroundModeEnabled}
+              onValueChange={setBackgroundModeEnabled}
+              disabled={isInitialized}
+            />
+          </View>
+        </View>
 
-      <ExpofpView expoKey="demo" onBoothClick={(e: any) => {
-        console.log("MAP 2: Booth clicked:", e);
-      }} />
+        {/* Action Buttons - All on one row */}
+        <View style={styles.buttonRow}>
+          <View style={styles.tinyButtonWrapper}>
+            <Button
+              title="Perms"
+              onPress={requestPermissions}
+              disabled={permissionsGranted}
+            />
+          </View>
+          <View style={styles.tinyButtonWrapper}>
+            <Button
+              title="BG"
+              onPress={requestBackgroundPermission}
+              disabled={!permissionsGranted}
+            />
+          </View>
+          <View style={styles.tinyButtonWrapper}>
+            <Button
+              title="Init"
+              onPress={doInit}
+              disabled={!permissionsGranted || isInitialized}
+            />
+          </View>
+          <View style={styles.tinyButtonWrapper}>
+            <Button
+              title="Start"
+              onPress={doStart}
+              disabled={!isInitialized || isTracking}
+            />
+          </View>
+          <View style={styles.tinyButtonWrapper}>
+            <Button
+              title="Stop"
+              onPress={doStop}
+              disabled={!isTracking}
+            />
+          </View>
+          <View style={styles.tinyButtonWrapper}>
+            <Button
+              title="Reset"
+              onPress={doReset}
+              disabled={isTracking}
+              color="#FF6B6B"
+            />
+          </View>
+        </View>
 
-      <View style={styles.buttons}>
-        <Button title="Next" onPress={switchKey} />
-        <Button
-          title="+"
-          onPress={() => {
-            console.log(
-              "🔶 [App] + button pressed, apiRef.current:",
-              apiRef.current,
-            );
-            apiRef.current?.zoomIn();
-          }}
-        />
-        <Button
-          title="-"
-          onPress={() => {
-            console.log(
-              "🔶 [App] - button pressed, apiRef.current:",
-              apiRef.current,
-            );
-            apiRef.current?.zoomOut();
-          }}
-        />
-        <Button
-          title="Fit Bounds"
-          onPress={() => {
-            console.log(
-              "🔶 [App] Fit Bounds button pressed, apiRef.current:",
-              apiRef.current,
-            );
-            apiRef.current?.fitBounds();
-          }}
-        />
+        {/* Location Info - Compact */}
+        {location && (
+          <Text style={styles.locationSmall} numberOfLines={1}>
+            Lat: {location.latitude?.toFixed(4)} Lng: {location.longitude?.toFixed(4)}
+          </Text>
+        )}
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  view: {
+  container: {
+    flex: 1,
+    flexDirection: "column",
+  },
+  mapsContainer: {
+    flex: 1,
+    position: "relative",
+    overflow: "hidden",
+  },
+  map: {
     flex: 1,
   },
-  buttons: {
+  mapControlsOverlay: {
     position: "absolute",
-    zIndex: 999,
-    top: 100,
-    left: 80,
+    top: 10,
+    left: 10,
+    right: 10,
+    zIndex: 100,
+  },
+  compactButtonRow: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    gap: 10,
+    gap: 8,
+    justifyContent: "flex-start",
+    flexWrap: "wrap",
   },
-  locationContainer: {
-    marginTop: 24,
-    paddingHorizontal: 16,
-    backgroundColor: "#fff",
-    borderRadius: 8,
-    padding: 16,
-    marginHorizontal: 16,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+  controlsPanel: {
+    backgroundColor: "#f5f5f5",
+    borderTopWidth: 1,
+    borderTopColor: "#ddd",
+    paddingHorizontal: 8,
+    paddingVertical: 4,
   },
-  locationTitle: {
-    fontWeight: "600",
-    marginBottom: 8,
-    fontSize: 18,
-    color: "#333",
-  },
-  locationValue: {
-    fontFamily: "Courier",
-    fontSize: 12,
-    color: "#666",
-  },
-  statusText: {
-    fontSize: 16,
-    fontWeight: "600",
-    marginBottom: 10,
-    textAlign: "center",
-    color: "#333",
-  },
-  settingRow: {
+  statusBar: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    backgroundColor: "#fff",
-    marginHorizontal: 16,
-    marginTop: 10,
-    borderRadius: 8,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
+    gap: 8,
+    marginBottom: 2,
+    justifyContent: "flex-start",
   },
-  settingLabel: {
-    fontSize: 16,
+  statusSmallText: {
+    fontSize: 10,
     fontWeight: "500",
     color: "#333",
+  },
+  backgroundToggle: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 2,
+    marginLeft: "auto",
+  },
+  toggleLabel: {
+    fontSize: 9,
+    fontWeight: "500",
+    color: "#333",
+  },
+  switchSmall: {
+    transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }],
+  },
+  buttonRow: {
+    flexDirection: "row",
+    gap: 4,
+    marginBottom: 2,
+    justifyContent: "space-between",
+  },
+  tinyButtonWrapper: {
+    flex: 1,
+    minHeight: 28,
+  },
+  locationSmall: {
+    fontSize: 9,
+    color: "#666",
+    fontFamily: "Courier",
+    marginTop: 2,
+  },
+  view: {
+    flex: 1,
   },
 });

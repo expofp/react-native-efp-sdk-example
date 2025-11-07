@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(git -C /Users/shagin/Public/ExpoFP/github/react-native-efp-sdk-example log --oneline -20)",
+      "Bash(tree:*)"
     ],
     "deny": [],
     "ask": []
