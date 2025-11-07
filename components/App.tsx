@@ -186,7 +186,25 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      {/* Maps Section - 80% of screen */}
+      {/* Header Panel - Map Controls */}
+      <View style={styles.headerPanel}>
+        <View style={styles.headerButtonRow}>
+          <View style={styles.headerButtonWrapper}>
+            <Button title="+" onPress={() => apiRef.current?.zoomIn()} />
+          </View>
+          <View style={styles.headerButtonWrapper}>
+            <Button title="-" onPress={() => apiRef.current?.zoomOut()} />
+          </View>
+          <View style={styles.headerButtonWrapper}>
+            <Button title="⤢" onPress={() => apiRef.current?.fitBounds()} />
+          </View>
+          <View style={styles.headerButtonWrapper}>
+            <Button title="Next" onPress={switchKey} />
+          </View>
+        </View>
+      </View>
+
+      {/* Maps Section */}
       <View style={styles.mapsContainer}>
         <ExpofpView
           ref={apiRef}
@@ -205,16 +223,6 @@ export default function App() {
             console.log("MAP 2: Booth clicked:", e);
           }}
         />
-
-        {/* Map Controls Overlay */}
-        <View style={styles.mapControlsOverlay}>
-          <View style={styles.compactButtonRow}>
-            <Button title="+" onPress={() => apiRef.current?.zoomIn()} />
-            <Button title="-" onPress={() => apiRef.current?.zoomOut()} />
-            <Button title="⤢" onPress={() => apiRef.current?.fitBounds()} />
-            <Button title="Next" onPress={switchKey} />
-          </View>
-        </View>
       </View>
 
       {/* Controls Section - Compact */}
@@ -304,6 +312,21 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
   },
+  headerPanel: {
+    backgroundColor: "#fff",
+    borderBottomWidth: 1,
+    borderBottomColor: "#ddd",
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+  },
+  headerButtonRow: {
+    flexDirection: "row",
+    gap: 4,
+    justifyContent: "flex-start",
+  },
+  headerButtonWrapper: {
+    minWidth: 50,
+  },
   mapsContainer: {
     flex: 1,
     position: "relative",
@@ -311,19 +334,6 @@ const styles = StyleSheet.create({
   },
   map: {
     flex: 1,
-  },
-  mapControlsOverlay: {
-    position: "absolute",
-    top: 10,
-    left: 10,
-    right: 10,
-    zIndex: 100,
-  },
-  compactButtonRow: {
-    flexDirection: "row",
-    gap: 8,
-    justifyContent: "flex-start",
-    flexWrap: "wrap",
   },
   controlsPanel: {
     backgroundColor: "#f5f5f5",
