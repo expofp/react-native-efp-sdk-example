@@ -4,6 +4,8 @@ Example app demonstrates how to use React Native packages [@expofp/react-native-
 
 ## Quick start
 
+Create file `config/crowdconnected.ts` from `config/crowdconnected.example.ts` and provide your `appKey` and `token` values. 
+
 ```bash
 git clone git@github.com:expofp/react-native-efp-sdk-example.git
 cd ./react-native-efp-sdk-example

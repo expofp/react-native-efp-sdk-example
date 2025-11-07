@@ -11,6 +11,7 @@ import {
   Text,
   View
 } from "react-native";
+import { CROWDCONNECTED_CONFIG } from "../config/crowdconnected";
 
 const FP = ["demo", "cloudnext25"];
 
@@ -116,13 +117,8 @@ export default function App() {
     );
 
     CrowdConnectedLocationProvider.setup({
-      appKey: "889b5c99",
-      token: "d501a6fb90874451a2b148054e69476d",
-      secret: "nb2t738418366684tB2oO9IELzLfpk3K",
-      navigationType: "all",
+      ...CROWDCONNECTED_CONFIG,
       isBackgroundUpdateEnabled: backgroundModeEnabled,
-      isBluetoothEnabled: true,
-      isHeadingEnabled: true,
     })
       .then((result) => {
         console.log("Setup success:", result);
