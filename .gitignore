@@ -42,3 +42,5 @@ yarn.lock
 # generated native folders
 /ios
 /android
+
+.tmp

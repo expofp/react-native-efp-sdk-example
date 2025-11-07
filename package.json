@@ -1,19 +1,22 @@
 {
-  "name": "expofp-sdk-rn-example",
+  "name": "react-native-efp-sdk-example",
+  "version": "0.1.0",
+  "private": true,
   "main": "expo-router/entry",
-  "version": "1.0.0",
   "scripts": {
-    "start": "expo start",
-    "reset-project": "node ./scripts/reset-project.js",
     "android": "expo run:android",
     "ios": "expo run:ios",
-    "web": "expo start --web",
     "lint": "expo lint",
-    "prebuild": "watchman watch-del-all && expo prebuild"
+    "expo:prebuild": "expo prebuild",
+    "prebuild": "watchman watch-del-all && npm run expo:prebuild",
+    "reset-project": "node ./scripts/reset-project.js",
+    "start": "expo start",
+    "web": "expo start --web"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.2",
-    "@expofp/expofp-sdk-rn": "^0.0.1-alpha.6",
+    "@expofp/react-native-efp-crowdconnected": "^0.1.0",
+    "@expofp/react-native-efp-sdk": "^0.1.0",
     "@react-navigation/bottom-tabs": "^7.4.0",
     "@react-navigation/elements": "^2.6.3",
     "@react-navigation/native": "^7.1.8",
@@ -44,6 +47,5 @@
     "eslint": "^9.25.0",
     "eslint-config-expo": "~10.0.0",
     "typescript": "~5.9.2"
-  },
-  "private": true
+  }
 }
