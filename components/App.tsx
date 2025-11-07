@@ -1,30 +1,64 @@
 import { CrowdConnectedLocationProvider } from "@expofp/react-native-efp-crowdconnected";
 import { ExpofpView, type ExpofpViewMethods } from "@expofp/react-native-efp-sdk";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   Alert,
   Button,
   PermissionsAndroid,
   Platform,
+  Pressable,
   StyleSheet,
   Switch,
   Text,
+  TextInput,
   View
 } from "react-native";
 import { CROWDCONNECTED_CONFIG } from "../config/crowdconnected";
 
-const FP = ["demo", "cloudnext25"];
+// Custom compact button for smaller font size
+const CompactButton = ({
+  title,
+  onPress,
+  disabled = false,
+  color,
+}: {
+  title: string;
+  onPress: () => void;
+  disabled?: boolean;
+  color?: string;
+}) => (
+  <Pressable
+    onPress={onPress}
+    disabled={disabled}
+    style={({ pressed }) => [
+      styles.compactButton,
+      pressed && styles.compactButtonPressed,
+      disabled && styles.compactButtonDisabled,
+    ]}
+  >
+    <Text
+      style={[
+        styles.compactButtonText,
+        color && { color },
+        disabled && styles.compactButtonTextDisabled,
+      ]}
+    >
+      {title}
+    </Text>
+  </Pressable>
+);
 
 export default function App() {
   const apiRef = useRef<ExpofpViewMethods>(null);
-  const [idx, setIdx] = useState(0);
 
-  const [expoKey, setExpoKey] = useState(FP[idx]);
-  const switchKey = useCallback(() => {
-    const nextIdx = (idx + 1) % FP.length;
-    setIdx(nextIdx);
-    setExpoKey(FP[nextIdx]);
-  }, [idx]);
+  const [expoKey, setExpoKey] = useState("demo");
+  const [floorPlanInput, setFloorPlanInput] = useState("demo");
+
+  const applyFloorPlan = useCallback(() => {
+    if (floorPlanInput.trim()) {
+      setExpoKey(floorPlanInput.trim());
+    }
+  }, [floorPlanInput]);
 
   const [location, setLocation] = useState<any>(null);
   const [permissionsGranted, setPermissionsGranted] = useState(false);
@@ -179,6 +213,17 @@ export default function App() {
     );
   }, []);
 
+  useEffect(() => {
+    const unsubscribe = CrowdConnectedLocationProvider.onLocationChange(
+      (loc) => {
+        setLocation(loc);
+        console.log("Location update:", loc);
+      },
+    );
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -194,8 +239,15 @@ export default function App() {
           <View style={styles.headerButtonWrapper}>
             <Button title="⤢" onPress={() => apiRef.current?.fitBounds()} />
           </View>
+          <TextInput
+            style={styles.floorPlanInput}
+            placeholder="Floor plan key"
+            value={floorPlanInput}
+            onChangeText={setFloorPlanInput}
+            placeholderTextColor="#999"
+          />
           <View style={styles.headerButtonWrapper}>
-            <Button title="Next" onPress={switchKey} />
+            <Button title="OK" onPress={applyFloorPlan} />
           </View>
         </View>
       </View>
@@ -209,14 +261,6 @@ export default function App() {
           expoKey={expoKey}
           onBoothClick={(e: any) => {
             console.log("MAP 1: Booth clicked:", e);
-          }}
-        />
-
-        <ExpofpView
-          style={styles.map}
-          expoKey="demo"
-          onBoothClick={(e: any) => {
-            console.log("MAP 2: Booth clicked:", e);
           }}
         />
       </View>
@@ -248,42 +292,42 @@ export default function App() {
         {/* Action Buttons - All on one row */}
         <View style={styles.buttonRow}>
           <View style={styles.tinyButtonWrapper}>
-            <Button
+            <CompactButton
               title="Perms"
               onPress={requestPermissions}
               disabled={permissionsGranted}
             />
           </View>
           <View style={styles.tinyButtonWrapper}>
-            <Button
+            <CompactButton
               title="BG"
               onPress={requestBackgroundPermission}
               disabled={!permissionsGranted}
             />
           </View>
           <View style={styles.tinyButtonWrapper}>
-            <Button
+            <CompactButton
               title="Init"
               onPress={doInit}
               disabled={!permissionsGranted || isInitialized}
             />
           </View>
           <View style={styles.tinyButtonWrapper}>
-            <Button
+            <CompactButton
               title="Start"
               onPress={doStart}
               disabled={!isInitialized || isTracking}
             />
           </View>
           <View style={styles.tinyButtonWrapper}>
-            <Button
+            <CompactButton
               title="Stop"
               onPress={doStop}
               disabled={!isTracking}
             />
           </View>
           <View style={styles.tinyButtonWrapper}>
-            <Button
+            <CompactButton
               title="Reset"
               onPress={doReset}
               disabled={isTracking}
@@ -322,6 +366,17 @@ const styles = StyleSheet.create({
   },
   headerButtonWrapper: {
     minWidth: 50,
+  },
+  floorPlanInput: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 4,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    fontSize: 12,
+    color: "#333",
+    marginHorizontal: 4,
   },
   mapsContainer: {
     flex: 1,
@@ -379,6 +434,28 @@ const styles = StyleSheet.create({
     color: "#666",
     fontFamily: "Courier",
     marginTop: 2,
+  },
+  compactButton: {
+    paddingHorizontal: 8,
+    paddingVertical: 6,
+    borderRadius: 4,
+    backgroundColor: "#007AFF",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  compactButtonPressed: {
+    opacity: 0.7,
+  },
+  compactButtonDisabled: {
+    backgroundColor: "#d9d9d9",
+  },
+  compactButtonText: {
+    fontSize: 10,
+    fontWeight: "600",
+    color: "#fff",
+  },
+  compactButtonTextDisabled: {
+    color: "#999",
   },
   view: {
     flex: 1,
