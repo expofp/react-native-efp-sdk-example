@@ -11,6 +11,23 @@ This example showcases:
 - **Permission Management** - Proper handling of location and Bluetooth permissions
 - **Background Tracking** - Support for background location updates
 
+## Screenshots
+
+<div align="center">
+  <table>
+    <tr>
+      <td><img src="img/1.png" alt="Floor Plan View" width="280"/></td>
+      <td><img src="img/2.png" alt="Map Controls" width="280"/></td>
+      <td><img src="img/3.png" alt="Control Panel" width="280"/></td>
+    </tr>
+    <tr>
+      <td align="center"><b>Floor Plan View</b></td>
+      <td align="center"><b>Map Controls & Floor Plan Selector</b></td>
+      <td align="center"><b>Permissions & Tracking Controls</b></td>
+    </tr>
+  </table>
+</div>
+
 ## Prerequisites
 
 Before you begin, ensure you have the following installed:
