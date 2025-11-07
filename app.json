@@ -10,7 +10,16 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.expofpdev.expofpsdkrnexample"
+      "bundleIdentifier": "com.expofpdev.expofpsdkrnexample",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "This app uses your location to display it on the map and provide location-based services.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "This app needs your location to provide real-time tracking and location-based services.",
+        "NSBluetoothAlwaysUsageDescription": "This app uses Bluetooth to improve location accuracy and discover nearby devices.",
+        "NSBluetoothPeripheralUsageDescription": "This app uses Bluetooth to improve location accuracy and discover nearby devices.",
+        "NSBonjourServiceTypes": [],
+        "NSLocalNetworkUsageDescription": "This app uses local network to discover devices on your network.",
+        "UIBackgroundModes": ["location", "bluetooth-central"]
+      }
     },
     "android": {
       "adaptiveIcon": {
