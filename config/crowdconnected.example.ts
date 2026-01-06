@@ -17,7 +17,7 @@ export const CROWDCONNECTED_CONFIG = {
   // Your CrowdConnected secret
   secret: "YOUR_SECRET_HERE",
 
-  // Navigation type - "all", "wifi", or "ble"
+  // Navigation type - "all", "IPS", or "GEO"
   navigationType: "all",
 
   // Enable Bluetooth scanning
