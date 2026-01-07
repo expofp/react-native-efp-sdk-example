@@ -47,3 +47,6 @@ yarn.lock
 .claude/settings.local.json
 
 config/crowdconnected.ts
+
+# IDE
+.idea/
