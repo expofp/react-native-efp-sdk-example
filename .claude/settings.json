@@ -1,0 +1,14 @@
+{
+    "enabledPlugins": {
+        "efp@expofp": true
+    },
+    "extraKnownMarketplaces": {
+        "expofp": {
+            "source": {
+                "source": "url",
+                "url": "https://efp-claude-plugins.s3.us-east-1.amazonaws.com/d3dcdacec7146940a18aa6de29bafe40/marketplace.json"
+            },
+            "autoUpdate": true
+        }
+    }
+}

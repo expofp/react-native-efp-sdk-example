@@ -45,6 +45,7 @@ yarn.lock
 
 .tmp
 .claude/settings.local.json
+.claude/.plugin-setup
 
 config/crowdconnected.ts
 

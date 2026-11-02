@@ -30,6 +30,11 @@ npm run web              # Start web development server (for web testing)
 npm run reset-project    # Reset project to clean state (note: references a script file that doesn't exist - may need fixing)
 ```
 
+### MCP servers (`.mcp.json`)
+- **iOS simulator: use MobileBuildMCP, not mobile-mcp** — build, run, logs, taps, screenshots. Project, scheme and simulator are set in `.mobilebuildmcp/config.yaml`. `ios/` is generated and not in git: run `npm run expo:prebuild` first if it is missing. Debug builds load JS from Metro, so start `npm start` first.
+- **Android emulator: use mobile-mcp** — taps, screenshots, logs. Build and install with `npm run android`.
+- Setup: `brew install getsentry/xcodebuildmcp/mobilebuildmcp`. mobile-mcp runs through `npx` (needs Node).
+
 ## Architecture Overview
 
 ### Application Entry Point
